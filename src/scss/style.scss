@@ -14,12 +14,10 @@
     pointer-events: all;
     opacity: 1;
   }
-  &-container {
+  &_button {
     padding: 12px 24px;
     background-color: #fff;
     border-radius: 24px;
-  }
-  &_button {
     font-size: 12px;
     font-weight: bold;
   }

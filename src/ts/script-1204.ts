@@ -43,7 +43,7 @@ const fragmentShaderSource = `
     vec2 uv = gl_FragCoord.xy / resolution.xy;
     vec3 textureColor = texture2D(map, uv).rgb;
     float difference = length(chromaKeyColor - textureColor.rgb);
-    gl_FragColor = vec4(textureColor, difference < threshold ? 0 : 1);
+    gl_FragColor = difference < threshold ? vec4(0.0, 0.0, 0.0, 0.0) : vec4(textureColor, 1.0);
   }
 `;
 
