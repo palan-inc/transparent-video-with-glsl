@@ -12,7 +12,8 @@ module.exports = {
   // 入力ディレクトリ設定
   entry: {
     // MEMO: 出力ファイルを追加する場合はこちらを変更します
-    'script': './src/ts/script.ts',
+    'script-1204': './src/ts/script-1204.ts',
+    'script-1224': './src/ts/script-1224.ts',
   },
 
   // 出力ディレクトリ設定

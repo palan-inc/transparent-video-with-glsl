@@ -37,32 +37,19 @@ const fragmentShaderSource = `
   uniform vec2  mouse;
   uniform vec2  resolution;
   uniform sampler2D map;
-
-  // void main(){
-  //   vec2 defaultCoord = gl_FragCoord.xy/resolution.xy;
-  //   vec2 flippedCoord = vec2(defaultCoord.x, 1.0 - defaultCoord.y);
-  //   vec2 uvTop = vec2(flippedCoord.x, flippedCoord.y / 2.0);
-  //   vec4 colorTop = texture2D( map, uvTop );
-  //   vec2 uvBottom = vec2(flippedCoord.x, flippedCoord.y / 2.0 + 0.5);
-  //   vec4 alphaBottom = texture2D( map, uvBottom );
-  //   float filteredAlpha = (alphaBottom.r > 0.8) ? 1.0 : alphaBottom.r;
-  //   gl_FragColor = vec4( colorTop.r, colorTop.g, colorTop.b, filteredAlpha);
-  // }
-
-  // uniform sampler2D texture;
-  // uniform vec3 color;
-  // varying vec2 vUv;
+  const vec3 chromaKeyColor = vec3(0.0, 1.0, 0.0);
+  const float threshold = 0.785;
   void main(void) {
-    vec2 vUv = gl_FragCoord.xy/resolution.xy;
-    vec3 tColor = texture2D( map, vUv ).rgb;
-    float a = (length(tColor - vec3(0.0, 1.0, 0.0)) - 0.5) * 7.0;
-    gl_FragColor = vec4(tColor, a);
+    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec3 textureColor = texture2D(map, uv).rgb;
+    float difference = length(chromaKeyColor - textureColor.rgb);
+    gl_FragColor = vec4(textureColor, difference < threshold ? 0 : 1);
   }
 `;
 
 window.onload = function () {
 
-  video = setupVideo('../static/video/1204.mp4');
+  video = setupVideo('../static/video/video-1204.mp4');
 
   sectionUI = document.getElementById('ui');
   buttonUI = document.getElementById('ui_button');
@@ -78,8 +65,8 @@ window.onload = function () {
   });
 
   canvas = document.getElementById("canvas");
-  canvasWidth = 1920;
-  canvasHeight = 1080;
+  canvasWidth = 1280;
+  canvasHeight = 720;
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
