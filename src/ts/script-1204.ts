@@ -3,6 +3,8 @@ import WebGLController from "./modules/WebGLController";
 
 let uc, wc;
 
+let fps = 1000 / 30;
+
 var startTime;
 var time = 0.0;
 var tempTime = 0.0;
@@ -59,9 +61,8 @@ window.onload = function () {
     video.muted = false;
     video.currentTime = 0;
     video.play();
-    sectionUI.classList.remove('is-active');
-    canvas.classList.add('is-active');
-
+    uc.deactivateDOM(sectionUI);
+    uc.activateDOM(canvas);
   });
 
   canvas = document.getElementById("canvas");
@@ -141,8 +142,7 @@ function render() {
   gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
   gl.flush();
 
-  // setTimeout(render, fps);
-  requestAnimationFrame(render);
+  setTimeout(render, fps);
 }
 
 function setupVideo(url) {
